@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Examples RabbitMQ</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+        <h2>Example 1. Simple queue</h2>
+        <p>Run in console "php consumer_simple.php" and input message in form and send him.</p>
+        <form action="" id="example1" method="post">
+            <input type="hidden" name="type" value="simple" />
+            <input type="text" name="message" />
+            <br />
+            <input type="submit" value="Send" />
+        </form>
+        <div id="result_example1"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        jQuery(document).ready(function(){
+            jQuery("#example1").submit(function(e){
+                e.preventDefault();
+
+                jQuery.ajax({
+                    url: '/producer.php',
+                    type: 'POST',
+                    dataType: 'html',
+                    data: jQuery(this).serialize(),
+                    success: function(response){
+                        jQuery("#result_example1").text(response);
+                    }
+                });
+            })
+        })
+    </script>
+</body>
+</html>
