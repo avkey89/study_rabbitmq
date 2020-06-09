@@ -1,4 +1,5 @@
 config.php
 
+.idea
 /vendor/
 /public/private/
