@@ -1,6 +1,8 @@
 {
     "require": {
-        "php-amqplib/php-amqplib": "^2.11"
+        "php-amqplib/php-amqplib": "^2.11",
+        "swiftmailer/swiftmailer": "^6.2",
+        "marcj/php-rest-service": "*"
     },
 
     "autoload": {

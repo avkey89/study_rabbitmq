@@ -34,10 +34,10 @@ abstract class AbstractProducer implements ProducerInterface
         }
     }
 
-    public function message(string $msg): void
+    public function message(string $msg, array $params = []): void
     {
         // TODO: Implement message() method.
-        $sendMessage = new AMQPMessage($msg);
+        $sendMessage = new AMQPMessage($msg, $params);
         $this->channel->basic_publish($sendMessage, '', $this->queue);
     }
 

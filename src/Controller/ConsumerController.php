@@ -16,9 +16,12 @@ class ConsumerController extends AbstractConsumer
         parent::__construct($host, $port, $user, $password);
     }
 
-    public function goProcess(): void
+    public function goProcess($no_local = false, $no_ack = true, $exclusive = false, $nowait = false, $basicQos = false): void
     {
-        $this->channel->basic_consume($this->queue, '', false, true, false, false, [$this, 'handler']);
+        if ($basicQos) {
+            $this->channel->basic_qos(null, 1, null);
+        }
+        $this->channel->basic_consume($this->queue, '', $no_local, $no_ack, $exclusive, $nowait, [$this, 'handler']);
         while(count($this->channel->callbacks)) {
             $this->channel->wait();
         }

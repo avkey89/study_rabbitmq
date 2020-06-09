@@ -19,6 +19,59 @@
         <div id="result_example1"></div>
     </div>
 
+    <div class="container">
+        <h2>Example 2. Subscription queue</h2>
+        <p>This implementation is for informational purposes and is not the best practice.</p>
+        <p>Create a schema and tables:</p>
+        <p>
+            <pre><code>create table `subscriber` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `email` varchar(255) NULL,
+    `subscriptionid` int(11) NOT NULL,
+    PRIMARY KEY (id)
+) engine=innodb;
+create unique index subscriber_id_uindex on subscriber (id);
+create unique index subscriber_email_uindex on subscriber (email);
+
+create table `subscriptions` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NULL,
+    PRIMARY KEY (id)
+) engine=innodb;
+create unique index subscriptions_id_uindex on subscriptions (id);
+
+create table `distribution` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `subscriptionid` int(11) NOT NULL,
+    `name` varchar(255) NULL,
+    PRIMARY KEY (id)
+) engine=innodb;
+create unique index distribution_id_uindex on distribution (id);
+
+create table `news` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `title` varchar(200) NOT NULL,
+    `text` text NULL,
+    `date_published` datetime DEFAULT now() NOT NULL,
+    PRIMARY KEY (id)
+) engine=innodb;
+create unique index news_id_uindex on news (id);
+
+create table `distribution_logs` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `subscriberid` int(11) NOT NULL,
+    `distributionid` int(11) NOT NULL,
+    `status` enum('send', 'error'),
+    `date` datetime DEFAULT now() NOT NULL,
+    PRIMARY KEY (id)
+) engine=innodb;
+create unique index distribution_logs_id_uindex on distribution_logs (id);
+    </code></pre>
+        </p>
+        <p>Add information in queue: run in console "php producer.php subscription".</p>
+        <p>Run in console "php consumer_subscription.php" and input message in form and send him.</p>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
         jQuery(document).ready(function(){
